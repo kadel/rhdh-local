@@ -2,11 +2,12 @@ version: '3.9'
 services:
   db:
     image: postgres:13
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data 
     environment:
-      POSTGRES_DB: postgres
-      # Database credentials
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
       test: [ 'CMD', 'pg_isready', '-U', 'postgres' ]
       interval: 5s
@@ -17,15 +18,17 @@ services:
     image: 'quay.io/janus-idp/backstage-showcase:next'
     ports:
       - '7007:7007'
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - AUTH_GITHUB_CLIENT_ID=${AUTH_GITHUB_CLIENT_ID}
+      - AUTH_GITHUB_CLIENT_SECRET=${AUTH_GITHUB_CLIENT_SECRET}
+      - BASE_URL=${BASE_URL}
     volumes:
       - './app-config.local.yaml:/opt/app-root/src/app-config.local.yaml'
       - './deploy:/opt/app-root/src/dynamic-plugins-root:Z'
-    environment:
-      # Reference database service
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     depends_on:
       db:
         condition: service_healthy
