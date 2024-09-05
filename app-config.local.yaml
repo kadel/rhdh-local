@@ -1,6 +1,8 @@
 auth:
   environment: development
   providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
     github:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
@@ -14,8 +16,8 @@ auth:
             - resolver: usernameMatchingUserEntityName
 app:
   title: Janus IDP
-  baseUrl: http://192.168.1.70:3000
+  baseUrl: ${BASE_URL}:7007
 
 backend:
   listen: 0.0.0.0:7007
-  baseUrl: http://192.168.1.70:7007
+  baseUrl: ${BASE_URL}:7007

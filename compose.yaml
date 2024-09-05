@@ -17,7 +17,6 @@ services:
     image: 'quay.io/janus-idp/backstage-showcase:next'
     ports:
       - '7007:7007'
-      - '3000:3000'
     volumes:
       - './app-config.local.yaml:/opt/app-root/src/app-config.local.yaml'
       - './deploy:/opt/app-root/src/dynamic-plugins-root:Z'
