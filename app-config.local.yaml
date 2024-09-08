@@ -1,25 +1,12 @@
-auth:
-  environment: development
-  providers:
-    guest:
-      dangerouslyAllowOutsideDevelopment: true
-    github:
-      development:
-        clientId: ${AUTH_GITHUB_CLIENT_ID}
-        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-        ## uncomment if using GitHub Enterprise
-        # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
-        signIn:
-          resolvers:
-            # Matches the GitHub username with the Backstage user entity name.
-            # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
-            - resolver: usernameMatchingUserEntityName
 app:
-  title: Janus IDP
+  title: Janus
   baseUrl: ${BASE_URL}:7007
 
 backend:
   baseUrl: ${BASE_URL}:7007
+  auth:
+    keys:
+      - secret: "password"
   https: true
   listen:
     port: 7007
@@ -29,5 +16,25 @@ backend:
       - 'http:'
       - 'https:'
   cors:
+    origin: ${BASE_URL}:7007
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+
+auth:
+  environment: development
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+    # github:
+    #   development:
+    #     clientId: ${AUTH_GITHUB_CLIENT_ID}
+    #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    #     ## uncomment if using GitHub Enterprise
+    #     # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
+    #     signIn:
+    #       resolvers:
+    #         # Matches the GitHub username with the Backstage user entity name.
+    #         # See https://backstage.io/docs/auth/github/provider#resolvers for more resolvers.
+    #         - resolver: usernameMatchingUserEntityName
+
+
