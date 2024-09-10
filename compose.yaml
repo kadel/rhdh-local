@@ -1,43 +1,72 @@
 services:
   db:
-    image: docker.io/library/postgres:13
+    image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data 
+      - "/var/lib/pgsql/data"
     env_file: ".env"
+    environment:
+      - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
+
   rhdh:
-    image: "quay.io/janus-idp/backstage-showcase:next"
+    image: ${RHDH_IMAGE}
     env_file: ".env"
+    user: "1001"
     entrypoint:
-      [
-        "node",
-        "packages/backend",
-        "--no-node-snapshot",
-        "--config",
-        "app-config.yaml",
-        "--config",
-        "app-config.example.yaml",
-        "--config",
-        "app-config.example.production.yaml",
-        "--config",
-        "app-config.local.yaml",
-      ]
+      - "/opt/app-root/src/wait-for-plugins.sh"
     ports:
       - "7007:7007"
     volumes:
-      - "./app-config.local.yaml:/opt/app-root/src/app-config.local.yaml"
-      - "./catalog-entities:/opt/app-root/src/catalog-entities:Z"
-      - "./dynamic-plugins-root:/opt/app-root/src/dynamic-plugins-root:Z"
-    environment:
-      # Reference database service
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - type: bind
+        source: "./wait-for-plugins.sh"
+        target: "/opt/app-root/src/wait-for-plugins.sh"
+        bind:
+          selinux: "Z"
+      - type: bind
+        source: "./app-config.local.yaml"
+        target: "/opt/app-root/src/app-config.local.yaml"
+        bind:
+          selinux: "Z"
+      - type: bind
+        source: "./catalog-entities"
+        target: "/opt/app-root/src/catalog-entities"
+        bind:
+          selinux: "Z"
+      - type: volume
+        source: dynamic-plugins-root
+        target: /opt/app-root/src/dynamic-plugins-root
+        volume:
+          nocopy: true
     depends_on:
       db:
         condition: service_healthy
+      install-dynamic-plugins:
+        condition: service_completed_successfully
+
+  install-dynamic-plugins:
+    image: ${RHDH_IMAGE}
+    # docker compose volumes are owned by root, so we need to run as root to write to them
+    # this is ok, as files are world readable
+    user: "root"
+    entrypoint:
+      - ./install-dynamic-plugins.sh
+      - /dynamic-plugins-root
+    env_file: ".env"
+    volumes:
+      - type: bind
+        source: "./dynamic-plugins.yaml"
+        target: "/opt/app-root/src/dynamic-plugins.yaml"
+        bind:
+          selinux: "Z"
+      - type: volume
+        source: dynamic-plugins-root
+        target: /dynamic-plugins-root
+        volume:
+          nocopy: true
+
+volumes:
+  dynamic-plugins-root:

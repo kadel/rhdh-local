@@ -3,21 +3,39 @@ auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
-    github:
-      development:
-        clientId: ${AUTH_GITHUB_CLIENT_ID}
-        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    # github:
+    #   development:
+    #     clientId: ${AUTH_GITHUB_CLIENT_ID}
+    #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
+# integrations:
+#   github:
+#     - host: github.com
+#       apps:
+#         - $include: github-app-credentials.yaml
+
 app:
-  title: Janus IDP
+  title: RHDH
   baseUrl: ${BASE_URL}
 
 backend:
-  listen: 0.0.0.0:7007
+  listen: 
+    port: 7007
   baseUrl: ${BASE_URL}
+  https: true
+  cors:
+    origin: ${BASE_URL}
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
 
-catalog:
-  locations:
-    - type: file
-      target: /opt/app-root/src/catalog-entities/users.yaml
-      rules:
-        - allow: [User, Group]
+# You can use local files from catalog-entities directory to load entities into the catalog
+# catalog:
+#   locations:
+#     - type: file
+#       target: /opt/app-root/src/catalog-entities/users.yaml
+#       rules:
+#         - allow: [User, Group]
+#     - type: file
+#       target: /opt/app-root/src/catalog-entities/components.yaml
+#       rules:
+#         - allow: [Component]
