@@ -1,6 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: User
-metadata:
-  name: kadel
-spec:
-  memberOf: [default]
