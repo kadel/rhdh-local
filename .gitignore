@@ -1,2 +1,2 @@
 .env
-github-app-credentials.yaml
+configs/github-app-credentials.yaml

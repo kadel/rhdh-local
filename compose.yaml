@@ -27,13 +27,8 @@ services:
         bind:
           selinux: "Z"
       - type: bind
-        source: "./app-config.local.yaml"
-        target: "/opt/app-root/src/app-config.local.yaml"
-        bind:
-          selinux: "Z"
-      - type: bind
-        source: "./catalog-entities"
-        target: "/opt/app-root/src/catalog-entities"
+        source: "./configs"
+        target: "/opt/app-root/src/configs"
         bind:
           selinux: "Z"
       - type: volume
@@ -58,7 +53,12 @@ services:
     env_file: ".env"
     volumes:
       - type: bind
-        source: "./dynamic-plugins.yaml"
+        source: "./configs"
+        target: "/opt/app-root/src/configs"
+        bind:
+          selinux: "Z"
+      - type: bind
+        source: "./configs/dynamic-plugins.yaml"
         target: "/opt/app-root/src/dynamic-plugins.yaml"
         bind:
           selinux: "Z"
