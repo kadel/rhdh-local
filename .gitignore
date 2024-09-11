@@ -1,2 +1,2 @@
 .env
-/pgdata
+configs/github-app-credentials.yaml

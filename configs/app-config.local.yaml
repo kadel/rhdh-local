@@ -1,0 +1,53 @@
+auth:
+  environment: development
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+    # github:
+    #   development:
+    #     clientId: ${AUTH_GITHUB_CLIENT_ID}
+    #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
+# integrations:
+#   github:
+#     - host: github.com
+#       apps:
+#         - $include: github-app-credentials.yaml
+
+app:
+  title: RHDH
+  baseUrl: ${BASE_URL}
+
+backend:
+  listen:
+    port: 7007
+  baseUrl: ${BASE_URL}
+  https: true
+  cors:
+    origin: ${BASE_URL}
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+  auth:
+    keys:
+      - secret: "development"
+
+# You can use local files from catalog-entities directory to load entities into the catalog
+catalog:
+  locations:
+    - type: file
+      target: /opt/app-root/src/configs/catalog-entities/users.yaml
+      rules:
+        - allow: [User, Group]
+    - type: file
+      target: /opt/app-root/src/configs/catalog-entities/components.yaml
+      rules:
+        - allow: [Component]
+    - type: url
+      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+      rules:
+        - allow: [Component, User, Group, Domain]
