@@ -46,8 +46,8 @@ catalog:
     - type: file
       target: /opt/app-root/src/configs/catalog-entities/components.yaml
       rules:
-        - allow: [Component]
-    - type: url
-      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-      rules:
-        - allow: [Component, User, Group, Domain]
+        - allow: [Component, System]
+    # - type: url
+    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+    #   rules:
+    #     - allow: [Component, User, Group, Domain]

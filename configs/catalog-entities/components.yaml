@@ -1,22 +1,54 @@
+# apiVersion: backstage.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: backstage
+#   description: |
+#     Backstage is an open-source developer portal that puts the developer experience first.
+#   links:
+#     - title: Website
+#       url: http://backstage.io
+#     - title: Documentation
+#       url: https://backstage.io/docs
+#     - title: Storybook
+#       url: https://backstage.io/storybook
+#     - title: Discord Chat
+#       url: https://discord.com/invite/EBHEGzX
+#   annotations:
+#     github.com/project-slug: backstage/backstage
+#     lighthouse.com/website-url: https://backstage.io
+# spec:
+#   type: library
+#   owner: CNCF
+#   lifecycle: experimental
+
+# ---
+
+###############################
+# SYSTEMS
+###############################
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: System
 metadata:
-  name: backstage
-  description: |
-    Backstage is an open-source developer portal that puts the developer experience first.
+  name: red-hat-developer-hub
+  description: "Red Hat Developer Hub is a place where developers can create, share, discover, and manage your organization's code. Based on Spotify Backstage."
+  tags:
+    - backstage
+    - developer
+    - hub
+    - redhat
   links:
-    - title: Website
-      url: http://backstage.io
-    - title: Documentation
-      url: https://backstage.io/docs
-    - title: Storybook
-      url: https://backstage.io/storybook
-    - title: Discord Chat
-      url: https://discord.com/invite/EBHEGzX
+    - url: https://youtu.be/LB1w8hjBt5k?si=2LxmEtIxIyAKcHx6
+      title: Red Hat Developer Hub Overview
+      type: video
+      icon: YouTube
+    - url: https://developers.redhat.com/rhdh/overview
+      title: Red Hat Developer Hub Homepage
+      type: website
+      icon: WebAsset
   annotations:
-    github.com/project-slug: backstage/backstage
-    lighthouse.com/website-url: https://backstage.io
-spec:
-  type: library
-  owner: CNCF
-  lifecycle: experimental
+    backstage.io/techdocs-ref: dir:.
+spec: 
+  owner: user:user
+  lifecycle: production
+  profile:
+    displayName: Red Hat Developer Hub

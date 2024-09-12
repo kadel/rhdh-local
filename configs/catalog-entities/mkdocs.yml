@@ -1,4 +1,26 @@
-site_name: backstage
+# site_name: backstage
+# docs_dir: docs
+# plugins:
+#   - techdocs-core
+
+site_name: red-hat-developer-hub
+site_description: Red Hat Developer Hub
+site_author: user:user
 docs_dir: docs
 plugins:
   - techdocs-core
+nav:
+  - "Welcome To Red Hat Developer Hub": index.md
+  # - "Why Choose VMware® Tanzu Developer Portal™?": why-choose-tdp.md
+  # - "Where Can I Get VMware® Tanzu Developer Portal™?": where-to-get-tdp.md
+  # - "Getting Started With VMware® Tanzu Developer Portal™": get-started.md 
+  # - "Feature Highlights Of VMware® Tanzu Developer Portal™": features.md
+  # - "What's Included With VMware® Tanzu Developer Portal™": whats-in-the-box.md
+  # - "Getting Help With VMware® Tanzu Developer Portal™": help.md
+  # - "FAQs For VMware® Tanzu Developer Portal™": faqs.md
+  # - "MKDocs Extensions": mkdocs-extensions.md  
+  # - 'Tanzu Labs - Modernization Recipes':
+  #   - 'REST API Design': recipes/rest-api-design.md
+  #   - 'REST API Versioning' : recipes/rest-api-versioning.md
+  #   - 'Get Started With Git': recipes/get-started-with-git.md
+  
