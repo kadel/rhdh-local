@@ -3,7 +3,9 @@ services:
     image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
     volumes:
       - "/var/lib/pgsql/data"
-    env_file: ".env"
+    env_file: 
+      - path: "./.env"
+        required: true
     environment:
       - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
@@ -14,7 +16,9 @@ services:
 
   rhdh:
     image: ${RHDH_IMAGE}
-    env_file: ".env"
+    env_file: 
+      - path: "./.env"
+        required: true
     user: "1001"
     entrypoint:
       - "/opt/app-root/src/wait-for-plugins.sh"
@@ -50,7 +54,9 @@ services:
     entrypoint:
       - ./install-dynamic-plugins.sh
       - /dynamic-plugins-root
-    env_file: ".env"
+    env_file: 
+      - path: "./.env"
+        required: true
     volumes:
       - type: bind
         source: "./configs"
