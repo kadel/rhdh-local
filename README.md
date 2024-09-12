@@ -10,13 +10,15 @@
 
    In most cases, when you you don't need GitHub Auth or testing different releases you
    can leave it as it is and it should work.
+
 1. Update `configs/app-config.local.yaml`.
    If you need fetching files form from GitHub you should configure `integrations.github`.
-   The recommended way is to use GitHub Apps. You can find hints on how to configure it in [github-app-credentials.example.yaml](configs/github-app-credentials.example.yaml) or mode tailed instruction in [Backstage documentation](https://backstage.io/docs/integrations/github/github-apps)
+   The recommended way is to use GitHub Apps. You can find hints on how to configure it in [github-app-credentials.example.yaml](configs/github-app-credentials.example.yaml) or mode detailed instruction in [Backstage documentation](https://backstage.io/docs/integrations/github/github-apps).
+
 1. Start testing environment.
    This repository should work with either `docker compose` using Docker Engine or `podman-compose` using Podman. When using Podman there are some exceptions. Check [Known Issues when using Podman Compose](#known-issues-when-using-podman-compose) for more info.
 
-   If you prefer  `docker compose` you can just replace `podman-compose` with `docker compose`
+   If you prefer `docker compose` you can just replace `podman-compose` with `docker compose`
 
    ```sh
    podman-compose up -d

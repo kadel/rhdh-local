@@ -51,3 +51,11 @@ catalog:
       target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
       rules:
         - allow: [Component, User, Group, Domain]
+
+
+techdocs:
+  generator:
+    runIn: local
+  builder: local
+  publisher: 
+    type: local
