@@ -49,7 +49,7 @@ services:
   install-dynamic-plugins:
     image: ${RHDH_IMAGE}
     # docker compose volumes are owned by root, so we need to run as root to write to them
-    # this is ok, as files are world readable
+    # the main rhdh container will be able to read from this as files are world readable
     user: "root"
     entrypoint:
       - ./install-dynamic-plugins.sh
@@ -58,6 +58,11 @@ services:
       - path: "./.env"
         required: true
     volumes:
+      - type: bind
+        source : "./local-plugins"
+        target: "/opt/app-root/src/local-plugins"
+        bind:
+          selinux: "Z"
       - type: bind
         source: "./configs"
         target: "/opt/app-root/src/configs"

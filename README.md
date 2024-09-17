@@ -39,6 +39,18 @@ podman-compose run install-dynamic-plugins
 podman-compose stop rhdh && podman-compose start rhdh
 ```
 
+## Loading dynamic plugins from host directory
+
+`local-plugins` directory is mounted into the `install-dynamic-plugins` container into `/opt/app-root/src/local-plugins`.
+You can leverage this install dynamic plugins from your local machine.
+
+1. Copy the dynamic plugin into the `local-plugins` directory.
+2. Make sure that the permissions are set to allow container to read files (quick and dirty solution is `chmod -R 777 local-plugins`)
+3. Configure your dynamic plugin in `dynamic-plugins.yaml`. See commented out examples in that file.
+4. See [Updating configuration](#updating-configuration) section for more information about how to load new configuration.
+
+
+
 ## Cleanup
 
 To tear down the environment to start next time fresh
