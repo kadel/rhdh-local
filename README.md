@@ -69,6 +69,7 @@ Before podman mounts volume over `dynamic-plugins-root` directory it copies all 
 
 This also doesn't work with `podman compose` when using `docker-compose` as external compose provider on MacOs
 It fails with
+
 ```
 install-dynamic-plugins-1  | Traceback (most recent call last):
 install-dynamic-plugins-1  |   File "/opt/app-root/src/install-dynamic-plugins.py", line 429, in <module>
@@ -77,4 +78,47 @@ install-dynamic-plugins-1  |   File "/opt/app-root/src/install-dynamic-plugins.p
 install-dynamic-plugins-1  |     with open(dynamicPluginsFile, 'r') as file:
 install-dynamic-plugins-1  | PermissionError: [Errno 13] Permission denied: 'dynamic-plugins.yaml'
 ```
+
 It looks like docker-compose when used with podman doesn't correctly propagete `Z` SElinux label.
+
+## Using PostgreSQL database
+
+By default in-memory db is used.
+If you want to use PostgreSQL with RHDH, here are the steps:
+
+1. Uncomment the `db` service block in [compose.yaml](compose.yaml) file
+
+   ```yaml
+   db:
+      image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
+      volumes:
+         - "/var/lib/pgsql/data"
+      env_file:
+         - path: "./.env"
+            required: true
+      environment:
+         - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
+      healthcheck:
+         test: ["CMD", "pg_isready", "-U", "postgres"]
+         interval: 5s
+         timeout: 5s
+         retries: 5
+   ```
+
+2. Uncomment the `db` section in the `depends_on` section of `rhdh` service in [compose.yaml](compose.yaml)
+
+   ```yaml
+   depends_on:
+      install-dynamic-plugins:
+         condition: service_completed_successfully
+      db:
+         condition: service_healthy
+   ```
+
+3. Comment out the SQLite in-memory configuration in [`app-config.local.yaml`](configs/app-config.local.yaml)
+
+   ```yaml
+   # database:
+   #   client: better-sqlite3
+   #   connection: ':memory:'
+   ```
