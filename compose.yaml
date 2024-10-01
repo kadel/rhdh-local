@@ -1,24 +1,28 @@
 services:
-  db:
-    container_name: db
-    image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
-    volumes:
-      - "/var/lib/pgsql/data"
-    env_file: 
-      - path: "./.env"
-        required: true
-    environment:
-      - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # Uncomment the following block to use a PostgreSQL database
+  # don't forget to also uncomment 'depends_on' 'db' section in the rhdh service
+  # and commentout or delete 'database' section in the app-config.local.yaml
+
+  # db:
+  #   container_name: db
+  #   image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
+  #   volumes:
+  #     - "/var/lib/pgsql/data"
+  #   env_file:
+  #     - path: "./.env"
+  #       required: true
+  #   environment:
+  #     - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
+  #   healthcheck:
+  #     test: ["CMD", "pg_isready", "-U", "postgres"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
 
   rhdh:
     container_name: rhdh
     image: ${RHDH_IMAGE}
-    env_file: 
+    env_file:
       - path: "./.env"
         required: true
     user: "1001"
@@ -43,10 +47,10 @@ services:
         volume:
           nocopy: true
     depends_on:
-      db:
-        condition: service_healthy
       install-dynamic-plugins:
         condition: service_completed_successfully
+      # db:
+      #   condition: service_healthy
 
   install-dynamic-plugins:
     container_name: rhdh-plugins-installer
@@ -57,7 +61,7 @@ services:
     entrypoint:
       - ./install-dynamic-plugins.sh
       - /dynamic-plugins-root
-    env_file: 
+    env_file:
       - path: "./.env"
         required: true
     volumes:
