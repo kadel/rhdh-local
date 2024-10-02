@@ -39,6 +39,10 @@ backend:
 
 # You can use local files from catalog-entities directory to load entities into the catalog
 catalog:
+
+  rules:
+    - allow: [Component, API, Location, Template, Domain, User, Group, System, Resource]
+
   locations:
     - type: file
       target: /opt/app-root/src/configs/catalog-entities/users.yaml
