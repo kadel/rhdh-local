@@ -1,8 +1,8 @@
-# Test Red Hat Developer Hub locally
+# Test Locally With Red Hat Developer Hub
 
-Welcome to RHDH local - the simplest way to run red Hat Developer Hub on your PC.
+Welcome to RHDH Local, the simplest way to test your software catalogs, techdocs, plugins, and more!
 
-RHDH local is ideal for trying some basic features of RHDH (like Software Catalogs or TechDocs) but it's also great for testing dynamic plugins and their configuration settings.
+RHDH local is the ideal proving ground for trying out the basic features of RHDH (like Software Catalogs or TechDocs) but, it's also great for testing dynamic plugins and their configuration settings. To use RHDH Local, all you really need is a basic knowledge of tools like Docker or Podman, a PC, and a web browser. You can run it on your laptop, desktop, or homelab server. Better still, when you're done working it's easy to remove.
 
 >**RHDH Local is NOT a substitute for red Hat Developer Hub**. Do not use RHDH Local as a production system. RHDH Local is designed to help individual developers test various RJDH features. It's not designed to scale to allow use by multiple people and it's not suitable for use by teams (there is no RBAC for example). There's also currently no support for RHDH Local. You use RHDH Local at your own risk. Contributions are welcome.
 
@@ -111,6 +111,13 @@ To reset everything in the cloned rhdh-local repository, including any configura
 
 ```sh
 git reset --hard
+```
+
+To remove the RHDH containers completely from your system (after you have run a `compose down`):
+
+```sh
+docker system prune --volumes # For rhdh-local running on docker
+podman system prune --volumes # For rhdh-local running on podman
 ```
 
 
