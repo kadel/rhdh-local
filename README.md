@@ -4,7 +4,7 @@ Welcome to RHDH Local, the simplest way to test your software catalogs, techdocs
 
 RHDH local is the ideal proving ground for trying out the basic features of RHDH (like Software Catalogs or TechDocs) but, it's also great for testing dynamic plugins and their configuration settings. To use RHDH Local, all you really need is a basic knowledge of tools like Docker or Podman, a PC, and a web browser. You can run it on your laptop, desktop, or homelab server. Better still, when you're done working it's easy to remove.
 
->**RHDH Local is NOT a substitute for red Hat Developer Hub**. Do not use RHDH Local as a production system. RHDH Local is designed to help individual developers test various RJDH features. It's not designed to scale to allow use by multiple people and it's not suitable for use by teams (there is no RBAC for example). There's also currently no support for RHDH Local. You use RHDH Local at your own risk. Contributions are welcome.
+>**RHDH Local is NOT a substitute for Red Hat Developer Hub**. Do not use RHDH Local as a production system. RHDH Local is designed to help individual developers test various RHDH features. It's not designed to scale to allow use by multiple people and it's not suitable for use by teams (there is no RBAC for example). There's also currently no support for RHDH Local. You use RHDH Local at your own risk. Contributions are welcome.
 
 ## What You'll Need Before You Get Started
 
@@ -59,7 +59,7 @@ To use RHDH Local you'll need a few things:
 
 ## Changing Your Configuration
 
-When you change `app-config.local.yaml` you can just restart `rhdh` to load RHDH with new configuration.
+When you change `app-config.local.yaml` you can restart `rhdh` to load RHDH with new configuration.
 
 ```sh
 podman-compose stop rhdh && podman-compose start rhdh
@@ -129,7 +129,8 @@ Older images doesn't work in combination with  `podman-compose`.
 This is due to https://issues.redhat.com/browse/RHIDP-3939. RHDH images currently populate dynamic-plugins-root directory with all plugins that are  packaged inside the image.
 Before podman mounts volume over `dynamic-plugins-root` directory it copies all existing files into the volume. When the plugins are installed using `install-dynamic-plugins.sh` script it create duplicate installations of some plugins, this situation than prevents Backstage to start.
 
-This also doesn't work with `podman compose` when using `docker-compose` as external compose provider on MacOs
+This also doesn't work with `podman compose` when using `docker-compose` as external compose provider on macOS.
+
 It fails with
 
 ```
@@ -141,7 +142,7 @@ install-dynamic-plugins-1  |     with open(dynamicPluginsFile, 'r') as file:
 install-dynamic-plugins-1  | PermissionError: [Errno 13] Permission denied: 'dynamic-plugins.yaml'
 ```
 
-It looks like docker-compose when used with podman doesn't correctly propagete `Z` SElinux label.
+It looks like `docker-compose` when used with podman doesn't correctly propagete `Z` SElinux label.
 
 ## Using PostgreSQL database
 
