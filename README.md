@@ -83,7 +83,7 @@ You can use the `local-plugins` folder install dynamic plugins directly from you
 3. Configure your dynamic plugin in `dynamic-plugins.yaml`. See commented out examples in that file for examples.
 4. See [Changing Your Configuration](#changing-your-configuration) section for more information about how to change and load new configuration.
 
-## Chagnging The Container Image
+## Changing The Container Image
 
 You can switch between RHDH and Janus-IDP by changing the container image name hald by the `RHDH_IMAGE` environment variable in your `.env` file.
 
@@ -152,29 +152,29 @@ If you want to use PostgreSQL with RHDH, here are the steps:
 
    ```yaml
    db:
-      image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
-      volumes:
-         - "/var/lib/pgsql/data"
-      env_file:
-         - path: "./.env"
-            required: true
-      environment:
-         - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
-      healthcheck:
-         test: ["CMD", "pg_isready", "-U", "postgres"]
-         interval: 5s
-         timeout: 5s
-         retries: 5
+     image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
+     volumes:
+       - "/var/lib/pgsql/data"
+     env_file:
+       - path: "./.env"
+         required: true
+     environment:
+       - POSTGRESQL_ADMIN_PASSWORD=${POSTGRES_PASSWORD}
+     healthcheck:
+       test: ["CMD", "pg_isready", "-U", "postgres"]
+       interval: 5s
+       timeout: 5s
+       retries: 5
    ```
 
 2. Uncomment the `db` section in the `depends_on` section of `rhdh` service in [compose.yaml](compose.yaml)
 
    ```yaml
    depends_on:
-      install-dynamic-plugins:
-         condition: service_completed_successfully
-      db:
-         condition: service_healthy
+     install-dynamic-plugins:
+       condition: service_completed_successfully
+     db:
+       condition: service_healthy
    ```
 
 3. Comment out the SQLite in-memory configuration in [`app-config.local.yaml`](configs/app-config.local.yaml)
