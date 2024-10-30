@@ -22,7 +22,7 @@ To use RHDH Local you'll need a few things:
 1. Clone this repository to a location on your PC
 
    ```sh
-   git clone https://github.com/kadel/rhdh-local.git
+   git clone https://github.com/redhat-developer/rhdh-local.git
    ```
 
 1. Move to the `rhdh-local` folder.
