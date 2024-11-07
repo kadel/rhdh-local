@@ -1,0 +1,43 @@
+# This Compose file is not usable on its own.
+# It needs to be used alongside the default compose.yaml file,
+# since it overrides the containers defined in the latter
+# and injects a new proxy container and adds a new network.
+#
+# You can run `[podman|docker]-compose -f compose.yaml -f compose-with-corporate-proxy.yaml config`
+# to view the effective merged config.
+
+networks:
+  internal_net:
+    # Network with no outside access
+    internal: true
+  default: {}
+
+services:
+  proxy:
+    container_name: proxy
+    image: registry.redhat.io/rhel9/squid:latest
+    environment:
+      - TS=UTC
+    entrypoint: [ '/bin/bash' ]
+    command:
+      - '-c'
+      - 'tail -vn 0 -F /var/log/squid/{access,cache,error,store}.log & /usr/sbin/container-entrypoint.sh'
+    networks:
+      - internal_net
+      - default
+
+  rhdh:
+    environment:
+      - HTTP_PROXY=http://proxy:3128
+      - HTTPS_PROXY=http://proxy:3128
+      # NO_PROXY configured in the .env file, but can be overridden here
+    networks:
+      - internal_net
+
+  install-dynamic-plugins:
+    environment:
+      - HTTP_PROXY=http://proxy:3128
+      - HTTPS_PROXY=http://proxy:3128
+      # NO_PROXY configured in the .env file, but can be overridden here
+    networks:
+      - internal_net
