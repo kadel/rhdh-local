@@ -22,11 +22,15 @@ backend:
   listen:
     port: 7007
   baseUrl: ${BASE_URL}
-  https: true
+  # uncomment this if backend.baseUrl is exposed over HTTPS
+  # and you want RHDH to auto-generate and serve a self-signed certificate.
+  # https: true
   cors:
     origin: ${BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+  csp:
+   upgrade-insecure-requests: false
 
 # comment out the following 'database' section to use the PostgreSQL database
   database:
