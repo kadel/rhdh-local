@@ -37,8 +37,8 @@ To use RHDH Local you'll need a few things:
    cp env.sample .env
    ```
 
-   In most cases, when you you don't need GitHub Auth or testing different releases you
-   can leave it as it is and it should work.
+   In most cases, when you don't need GitHub Auth or testing different releases you
+   can leave it as it is, and it should work.
 
 1. (Optional) Update `configs/app-config.local.yaml`.
    If you need fetching files form from GitHub you should configure `integrations.github`.
@@ -85,7 +85,7 @@ You can use the `local-plugins` folder install dynamic plugins directly from you
 
 ## Changing The Container Image
 
-You can switch between RHDH and Janus-IDP by changing the container image name hald by the `RHDH_IMAGE` environment variable in your `.env` file.
+You can switch between RHDH and Janus-IDP by changing the container image name hold by the `RHDH_IMAGE` environment variable in your `.env` file.
 
 To use nightly build of Janus-IDP, set the variable as follows:
 
@@ -101,7 +101,7 @@ RHDH_IMAGE=quay.io/rhdh/rhdh-hub-rhel9:1.3
 
 ## Cleanup
 
-To reset RHDH Local you can use the following command. this will clean up any attached volumes, but your configuration changes will remain.
+To reset RHDH Local you can use the following command. This will clean up any attached volumes, but your configuration changes will remain.
 
 ```sh
 podman-compose down --volumes
@@ -125,8 +125,8 @@ podman system prune --volumes # For rhdh-local running on podman
 
 Works with `podman-compose` only with image that include this following fix https://github.com/janus-idp/backstage-showcase/pull/1585
 
-Older images doesn't work in combination with  `podman-compose`.
-This is due to https://issues.redhat.com/browse/RHIDP-3939. RHDH images currently populate dynamic-plugins-root directory with all plugins that are  packaged inside the image.
+Older images don't work in combination with `podman-compose`.
+This is due to https://issues.redhat.com/browse/RHIDP-3939. RHDH images currently populate dynamic-plugins-root directory with all plugins that are packaged inside the image.
 Before podman mounts volume over `dynamic-plugins-root` directory it copies all existing files into the volume. When the plugins are installed using `install-dynamic-plugins.sh` script it create duplicate installations of some plugins, this situation than prevents Backstage to start.
 
 This also doesn't work with `podman compose` when using `docker-compose` as external compose provider on macOS.
@@ -142,11 +142,11 @@ install-dynamic-plugins-1  |     with open(dynamicPluginsFile, 'r') as file:
 install-dynamic-plugins-1  | PermissionError: [Errno 13] Permission denied: 'dynamic-plugins.yaml'
 ```
 
-It looks like `docker-compose` when used with podman doesn't correctly propagete `Z` SElinux label.
+It looks like `docker-compose` when used with podman doesn't correctly propagate `Z` SElinux label.
 
 ## Using PostgreSQL database
 
-By default in-memory db is used.
+By default, in-memory db is used.
 If you want to use PostgreSQL with RHDH, here are the steps:
 
 1. Uncomment the `db` service block in [compose.yaml](compose.yaml) file
