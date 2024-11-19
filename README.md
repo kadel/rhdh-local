@@ -16,6 +16,7 @@ To use RHDH Local you'll need a few things:
 1. (Optional) The `git` command line client for cloning this repository (or you can download and extract the Zip from GitHub)
 1. (Optional) A GitHub account if you want to integrate GitHub
 1. (Optional) The node `npx` tool if you intend to use GitHub authentication 
+1. (Optional) A [Red Hat account](https://access.redhat.com/RegistryAuthentication#getting-a-red-hat-login-2) if you want to use PostgreSQL database
 
 ## Getting Started With RHDH Local
 
@@ -168,11 +169,25 @@ It looks like `docker-compose` when used with podman doesn't correctly propagate
 By default, in-memory db is used.
 If you want to use PostgreSQL with RHDH, here are the steps:
 
-1. Uncomment the `db` service block in [compose.yaml](compose.yaml) file
+> **NOTE**: You must have [Red Hat Login](https://access.redhat.com/RegistryAuthentication#getting-a-red-hat-login-2) to use `postgresql` image.
+
+1. Login to container registry with *Red Hat Login* credentials to use `postgresql` image
+
+   ```sh
+   podman login registry.redhat.io
+   ```
+
+   If you prefer `docker` you can just replace `podman` with `docker`
+
+   ```sh
+   docker login registry.redhat.io
+   ```
+
+2. Uncomment the `db` service block in [compose.yaml](compose.yaml) file
 
    ```yaml
    db:
-     image: "registry.access.redhat.com/rhel8/postgresql-16:latest"
+     image: "registry.redhat.io/rhel8/postgresql-16:latest"
      volumes:
        - "/var/lib/pgsql/data"
      env_file:
@@ -187,7 +202,7 @@ If you want to use PostgreSQL with RHDH, here are the steps:
        retries: 5
    ```
 
-2. Uncomment the `db` section in the `depends_on` section of `rhdh` service in [compose.yaml](compose.yaml)
+3. Uncomment the `db` section in the `depends_on` section of `rhdh` service in [compose.yaml](compose.yaml)
 
    ```yaml
    depends_on:
@@ -197,7 +212,7 @@ If you want to use PostgreSQL with RHDH, here are the steps:
        condition: service_healthy
    ```
 
-3. Comment out the SQLite in-memory configuration in [`app-config.local.yaml`](configs/app-config.local.yaml)
+4. Comment out the SQLite in-memory configuration in [`app-config.local.yaml`](configs/app-config.local.yaml)
 
    ```yaml
    # database:
