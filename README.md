@@ -219,3 +219,32 @@ If you want to use PostgreSQL with RHDH, here are the steps:
    #   client: better-sqlite3
    #   connection: ':memory:'
    ```
+
+## Using VSCode to debug backend plugins
+
+- start rhdh-local with `docker compose up -f compose.yaml -f compose-debug.yaml`
+- export plugin `npx @janus-idp/cli@latest package export-dynamic-plugin`
+- copy source to dynamic-plugins-root
+	- `podman cp todo/dist-dynamic rhdh:/opt/app-root/src/dynamic-plugins-root/todo`
+	- `podman cp todo-backend/dist-dynamic rhdh:/opt/app-root/src/dynamic-plugins-root/todo-backend`
+- restart rhdh
+  - `podman compose stop rhdh; podman compose start rhdh`
+
+
+- vscode `launch.json` config
+  
+   ```json
+   {
+      "version": "0.2.0",
+      "configurations": [
+         {
+            "name": "Attach to Process",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/opt/app-root/src/dynamic-plugins-root/todo-backend",
+         }
+      ]
+   }
+   ```

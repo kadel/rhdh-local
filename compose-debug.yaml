@@ -1,0 +1,7 @@
+services:
+  rhdh:
+    ports:
+      - "7007:7007"
+      - "9229:9229"
+    environment:
+      NODE_OPTIONS: "--inspect=0.0.0.0:9229"
