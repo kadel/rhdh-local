@@ -46,9 +46,6 @@ services:
         target: /opt/app-root/src/dynamic-plugins-root
         volume:
           nocopy: true
-      - type: volume
-        source: techdocs
-        target: /opt/app-root/src/techdocs
     depends_on:
       install-dynamic-plugins:
         condition: service_completed_successfully
@@ -95,4 +92,3 @@ services:
 
 volumes:
   dynamic-plugins-root:
-  techdocs:
