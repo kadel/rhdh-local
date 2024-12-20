@@ -16,9 +16,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: prepare .env
       run: cp env.sample .env
-    - name: Build the Docker image
+    - name: docker compose up
       run: docker compose up -d
-    - name: Wait for HTTP 200 response
+    - name: Wait for HTTP 200 response from homepage
       run: |
         max=30
         i=0
@@ -27,6 +27,7 @@ jobs:
           i=$((i+1))
           if [ "$i" -ge "$max" ]; then
             echo "Max retries reached. Exiting."
+            docker compose logs
             exit 1
           fi
           echo "($i/$max)Waiting for https://localhost:7007 to return HTTP 200..."
