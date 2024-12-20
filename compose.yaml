@@ -95,3 +95,4 @@ services:
 
 volumes:
   dynamic-plugins-root:
+  techdocs:
