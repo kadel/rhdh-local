@@ -68,3 +68,5 @@ techdocs:
   builder: local
   publisher: 
     type: local
+    local:
+      publishDirectory: /opt/app-root/src/techdocs
