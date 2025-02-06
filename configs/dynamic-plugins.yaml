@@ -4,7 +4,7 @@ plugins: []
 
   # EXAMPLES:
   # loading plugin from host directory
-  # - package: /opt/app-root/src/local-plugins/todo
+  # - package: ./local-plugins/todo
   #   disabled: false
   #   pluginConfig:
   #     dynamicPlugins:
