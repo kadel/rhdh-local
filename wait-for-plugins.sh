@@ -15,5 +15,5 @@ node packages/backend --no-node-snapshot \
     --config app-config.yaml \
     --config app-config.example.yaml \
     --config app-config.example.production.yaml \
-    --config configs/app-config.local.yaml \
-    --config $DYNAMIC_PLUGINS_CONFIG
+    --config $DYNAMIC_PLUGINS_CONFIG \
+    --config configs/app-config.local.yaml 
