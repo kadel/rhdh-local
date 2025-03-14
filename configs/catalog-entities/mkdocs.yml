@@ -1,16 +1,12 @@
-# site_name: backstage
-# docs_dir: docs
-# plugins:
-#   - techdocs-core
-
-site_name: red-hat-developer-hub
-site_description: Red Hat Developer Hub
+site_name: rhdh-local
+site_description: RHDH Local
 site_author: user:user
 docs_dir: docs
 plugins:
   - techdocs-core
 nav:
-  - "Welcome To Red Hat Developer Hub": index.md
+  - "Welcome To RHDH Local": index.md
   - "Highlights Of Red Hat Developer Hub": features.md
+  - "TechDocs Extensions": extensions.md
 
   
