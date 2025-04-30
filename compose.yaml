@@ -46,8 +46,8 @@ services:
         target: "/opt/app-root/src/configs"
         bind:
           selinux: "Z"
-      - type: volume
-        source: dynamic-plugins-root
+      - type: bind
+        source: ./dynamic-plugins-root
         target: /opt/app-root/src/dynamic-plugins-root
         volume:
           nocopy: true
@@ -86,11 +86,9 @@ services:
         target: "/opt/app-root/src/configs"
         bind:
           selinux: "Z"
-      - type: volume
-        source: dynamic-plugins-root
+      - type: bind
+        source: ./dynamic-plugins-root
         target: /dynamic-plugins-root
         volume:
           nocopy: true
 
-volumes:
-  dynamic-plugins-root:
