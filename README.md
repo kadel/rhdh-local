@@ -118,6 +118,29 @@ To load dynamic plugins from your local machine:
     - If no override file is present, `configs/dynamic-plugins/dynamic-plugins.yaml` will be used.
 4. See [Changing Your Configuration](#changing-your-configuration) for more on updating and reloading configs.
 
+## Optional: Customize `.npmrc` for Plugin Installation
+
+If you're installing dynamic plugins from a private registry or using a proxy, you can customize your own `.npmrc` file. A `.npmrc.example` file is provided in the `configs/` directory as a template.
+
+1. Copy the example file to create your own `.npmrc`:
+
+    ```sh
+    cp configs/.npmrc.example configs/.npmrc
+    ```
+
+2. Open the newly created `.npmrc` file and add your configuration, such as private registry URLs or authentication tokens:
+
+    ```sh
+    //registry.npmjs.org/:_authToken=YOUR_TOKEN
+    registry=https://your-private-registry.example.com/
+    ```
+
+When present, this `.npmrc` file will be automatically mounted into the `install-dynamic-plugins` container, and the `NPM_CONFIG_USERCONFIG` environment variable will be set to point to it.
+
+If you don't create a `.npmrc`, plugin installation will still work using the default public registry settings.
+
+> For more information on configuring `.npmrc`, see the [npm configuration docs](https://docs.npmjs.com/cli/v10/configuring-npm/npmrc).
+
 ## Changing The Container Image
 
 You can switch between RHDH and Janus-IDP by changing the container image name hold by the `RHDH_IMAGE` environment variable in your `.env` file.
