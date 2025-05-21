@@ -15,8 +15,6 @@ services:
       - type: bind
         source: ./dynamic-plugins-root
         target: /opt/app-root/src/dynamic-plugins-root
-        volume:
-          nocopy: true
 
 
   install-dynamic-plugins:
@@ -24,5 +22,3 @@ services:
       - type: bind
         source: ./dynamic-plugins-root
         target: /dynamic-plugins-root
-        volume:
-          nocopy: true
