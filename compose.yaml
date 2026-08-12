@@ -70,6 +70,8 @@ services:
       - ./configs:/opt/app-root/src/configs:z
       - dynamic-plugins-root:/dynamic-plugins-root
       - extensions-catalog:${CATALOG_ENTITIES_EXTRACT_DIR:-/extensions}
+      # Registry auth for private OCI registries (set REGISTRY_AUTH_FILE_PATH in .env)
+      - ${REGISTRY_AUTH_FILE_PATH:-./configs/extra-files/templates/placeholder.json}:/opt/app-root/src/.config/containers/auth.json:ro,Z
 
 volumes:
   dynamic-plugins-root:
