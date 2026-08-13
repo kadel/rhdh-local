@@ -55,6 +55,8 @@ echo "LOG_LEVEL=debug" >> .env
 Common variables to customize:
 
 - `RHDH_IMAGE`: RHDH container image version
+- `CATALOG_INDEX_IMAGE`: Primary plugin catalog index image
+- `EXTRA_CATALOG_INDEX_IMAGES`: Additional catalog index images (comma-separated). See the [catalog index docs](dynamic-plugins-management.md#extra-catalog-index-images) for details
 - `LOG_LEVEL`: RHDH application log level
 - GitHub authentication variables (see the [GitHub auth guide](github-auth.md))
 
@@ -65,19 +67,23 @@ After making configuration changes:
 === "Podman"
     ```bash
     # For app-config changes
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
 
     # For plugin changes
     podman compose run install-dynamic-plugins
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
     ```
 
 === "Docker"
     ```bash
     # For app-config changes
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
 
     # For plugin changes
     docker compose run install-dynamic-plugins
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
     ```

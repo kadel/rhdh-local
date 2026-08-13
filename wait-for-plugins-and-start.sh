@@ -16,12 +16,22 @@ DEFAULT_APP_CONFIG="configs/app-config/app-config.yaml"
 PATCHED_APP_CONFIG="generated/app-config.patched.yaml"
 
 USER_APP_CONFIG="configs/app-config/app-config.local.yaml"
-LIGHTSPEED_APP_CONFIG="developer-lightspeed/configs/app-config/app-config.lightspeed.local.yaml"
 LEGACY_USER_APP_CONFIG="configs/app-config.local.yaml"
 
 USERS_OVERRIDE="configs/catalog-entities/users.override.yaml"
 
 mkdir -p generated
+
+# Copy TechDocs source files into a writable workdir for in-place mkdocs.yaml updates
+# during TechDocs generation
+TECHDOCS_SOURCE="/opt/app-root/src/techdocs-source"
+TECHDOCS_WORKDIR="/opt/app-root/src/techdocs-workdir"
+if [[ -d "$TECHDOCS_SOURCE" ]]; then
+  echo "Syncing TechDocs source files to writable workdir"
+  mkdir -p "$TECHDOCS_WORKDIR"
+  cp -a "$TECHDOCS_SOURCE/"* "$TECHDOCS_WORKDIR/"
+fi
+
 cp -f "$DEFAULT_APP_CONFIG" "$PATCHED_APP_CONFIG"
 
 # Wait until the dynamic plugin config is ready
@@ -44,11 +54,6 @@ if [ -f "$USER_APP_CONFIG" ]; then
 elif [ -f "$LEGACY_USER_APP_CONFIG" ]; then
   echo "[warn] Using legacy app-config.local.yaml. This is deprecated. Please migrate to $USER_APP_CONFIG."
   EXTRA_CONFIGS="$LEGACY_USER_APP_CONFIG"
-fi
-
-if [ -f "$LIGHTSPEED_APP_CONFIG" ]; then
-  echo "Using lightspeed config: $LIGHTSPEED_APP_CONFIG"
-  EXTRA_CONFIGS="$EXTRA_CONFIGS $LIGHTSPEED_APP_CONFIG"
 fi
 
 EXTRA_CLI_ARGS=""

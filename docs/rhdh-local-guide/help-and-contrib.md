@@ -95,6 +95,27 @@ We actively encourage contributions of all types! Here's how you can help:
 - **Create example setups** for specific scenarios
 - **Document best practices** from real-world usage
 
+### Branching Model
+
+This repository uses a `main`/`dev` branching model to separate stable content from active development:
+
+| Branch | Purpose | Tracks |
+|---|---|---|
+| **`main`** (default) | Latest stable GA release of RHDH | Current GA RHDH version |
+| **`dev`** | Active development for the upcoming RHDH release | RHDH `next` tag |
+| **`release-x.y`** | Release stabilization and patch releases | Specific RHDH version |
+
+#### Which branch should my PR target?
+
+| Change type | Target branch |
+|---|---|
+| All development work (features, docs, dependency updates, etc.) | `dev` |
+| Bug fixes for a specific supported release | `release-x.y` |
+
+Do not target `main` directly. Maintainers manage `main` via merges and cherry-picks.
+
+At Feature Freeze, a `release-x.y` branch is created from `dev` for stabilization. At GA, the release branch is merged into `main`, so `main` always reflects the latest stable RHDH release. Maintainers cherry-pick changes to `main` when appropriate (e.g., version-independent fixes that should not wait until the next GA).
+
 ### Contribution Workflow
 
 #### 1. Prepare Your Environment
@@ -106,9 +127,10 @@ git clone https://github.com/YOUR-USERNAME/rhdh-local.git && cd rhdh-local
 
 # Add upstream remote for staying current
 git remote add upstream https://github.com/redhat-developer/rhdh-local.git
+git fetch upstream
 
-# Create a development branch
-git checkout -b feature/my-contribution
+# Create a branch from dev (see "Which branch should my PR target?" above)
+git checkout -b feature/my-contribution upstream/dev
 ```
 
 #### 2. Development Guidelines
@@ -208,6 +230,20 @@ See [Making Your TechDocs More Appealing](../getting-started-rhdh/making-techdoc
 2. **Test the instructions** by following them yourself on a fresh setup
 3. **Preview in RHDH Local** to verify formatting and links work
 4. **Have someone else test** your instructions (when possible)
+
+#### Applying local changes
+
+At container startup, RHDH Local copies `mkdocs.yaml`, `docs/`, and `catalog-info.yaml` from a read-only bind mount into a writable in-container workdir. TechDocs generation updates `mkdocs.yaml` in that workdir, so the running instance does not watch your host files directly.
+
+After editing built-in TechDocs on the host, restart the RHDH container to pick up your changes:
+
+```bash
+podman compose stop rhdh   # or: docker compose stop rhdh
+podman compose start rhdh  # or: docker compose start rhdh
+```
+
+!!! note "Restart required for local preview"
+    Previously, editing `docs/` on the host was reflected in the TechDocs UI after a page reload. With the writable workdir copy, a container restart is required to re-sync source files before you can preview updates in RHDH Local.
 
 #### TechDocs Review Process
 

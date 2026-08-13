@@ -25,14 +25,16 @@ After making plugin changes through the UI, restart your local instance with the
     ```bash
     # Reinstall plugins and restart RHDH
     podman compose run install-dynamic-plugins
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
     ```
 
 === "Docker"
     ```bash
     # Reinstall plugins and restart RHDH
     docker compose run install-dynamic-plugins
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
     ```
 
 This process typically may take a few minutes. You can monitor the startup progress in the container logs:
@@ -93,6 +95,25 @@ The default value of the `CATALOG_INDEX_IMAGE` environment variable is defined i
 ```bash
 CATALOG_INDEX_IMAGE=my-registry.example.com/org/my-rhdh-plugin-catalog-index:1.2-3
 ```
+
+### Extra catalog index images
+
+Starting in 1.10, you can configure additional catalog index images alongside the primary one using the `EXTRA_CATALOG_INDEX_IMAGES` environment variable. Plugins from these extra images appear in the Extensions UI but are not installed by default (they do not contribute `dynamic-plugins.default.yaml` files).
+
+Set `EXTRA_CATALOG_INDEX_IMAGES` in your `.env` file as a comma-separated list of image references. You can optionally prefix each reference with a name for cleaner extraction directory names:
+
+```bash
+# Plain image references (directory names are auto-derived from the image ref)
+EXTRA_CATALOG_INDEX_IMAGES=quay.io/my-org/my-catalog-index:1.0
+
+# Named references (recommended — produces cleaner directory names like /extensions/extra/community/)
+EXTRA_CATALOG_INDEX_IMAGES=community=quay.io/rhdh/plugin-catalog-index:1.10
+
+# Multiple images
+EXTRA_CATALOG_INDEX_IMAGES=community=quay.io/rhdh/plugin-catalog-index:1.10,partner=quay.io/my-org/partner-catalog:2.0
+```
+
+Extra catalog entities are extracted under `<CATALOG_ENTITIES_EXTRACT_DIR>/extra/<name>/`, keeping them separate from the primary catalog index.
 
 ### Configuration Structure
 
@@ -209,7 +230,8 @@ podman run --rm -it \
 
     # Reinstall plugins without clearing other data
     podman compose run install-dynamic-plugins
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
     ```
 
 === "Docker"
@@ -220,7 +242,8 @@ podman run --rm -it \
 
     # Reinstall plugins without clearing other data
     docker compose run install-dynamic-plugins
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
     ```
 
 ## Applying Plugin Changes
@@ -233,14 +256,16 @@ After modifying the plugin configuration, for example after configuring plugins 
     ```bash
     # Reinstall plugins and restart RHDH
     podman compose run install-dynamic-plugins
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
     ```
 
 === "Docker"
     ```bash
     # Reinstall plugins and restart RHDH
     docker compose run install-dynamic-plugins
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
     ```
 
 ### Quick Restart (No Plugin Changes)
@@ -250,11 +275,13 @@ For configuration-only changes:
 === "Podman"
     ```bash
     # Just restart RHDH (if plugins haven't changed)
-    podman compose restart rhdh
+    podman compose stop rhdh
+    podman compose start rhdh
     ```
 
 === "Docker"
     ```bash
     # Just restart RHDH (if plugins haven't changed)
-    docker compose restart rhdh
+    docker compose stop rhdh
+    docker compose start rhdh
     ```
